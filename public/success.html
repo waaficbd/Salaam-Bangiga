@@ -8,27 +8,30 @@
     <style>
         /* --- CSS STYLES --- */
         :root {
-            --bg-dark: #0d1b2a;
-            --card-bg: #1b2a4a;
-            --header-bg: #001f3f;
-            --header-bg-accent: #003366;
-            --accent-blue: #38bdf8;
-            --accent-border: #1e3a5f;
-            --text-main: #f8fafc;
-            --text-sub: #cbd5e1;
-            --text-muted: #94a3b8;
-            --warning-bg: rgba(234, 179, 8, 0.1);
-            --warning-border: #854d0e;
-            --warning-text: #fef08a;
+            --bg-blue: #0066b2;
+            --card-bg: #ffffff;
+            --header-bg: #f4f8fb;
+            --header-border: #e1ecf4;
+            --brand-green: #008744;
+            --brand-blue: #0066b2;
+            --dark-blue: #005291;
+            --accent-border: #cbd5e1;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --text-muted: #888888;
+            --warning-bg: #fffbeb;
+            --warning-border: #fde68a;
+            --warning-text: #b45309;
+            --warning-body: #92400e;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-dark);
+            background: var(--bg-blue);
             margin: 0;
             display: flex;
             justify-content: center;
-            padding: 20px;
+            padding: 20px 10px;
             min-height: 100vh;
             box-sizing: border-box;
             color: var(--text-main);
@@ -40,12 +43,11 @@
             background-color: var(--card-bg);
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            border: 1px solid var(--accent-border);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .main-content {
-            padding: 25px;
+            padding: 25px 20px;
         }
 
         /* Top Header */
@@ -57,21 +59,22 @@
         .check-circle {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: white;
+            background-color: #e6f4ea;
+            border: 2px solid var(--brand-green);
+            color: var(--brand-green);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 38px;
             margin: 0 auto 15px;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 135, 68, 0.15);
         }
 
         .congrats-title {
             font-size: 24px;
-            font-weight: bold;
-            color: var(--text-main);
+            font-weight: 700;
+            color: var(--brand-blue);
             margin: 10px 0;
         }
 
@@ -84,8 +87,8 @@
 
         /* Amount Box */
         .amount-box {
-            background: linear-gradient(135deg, var(--header-bg) 0%, var(--header-bg-accent) 100%);
-            border: 1px solid var(--accent-border);
+            background: var(--header-bg);
+            border: 1px solid var(--header-border);
             border-radius: 16px;
             padding: 20px;
             text-align: center;
@@ -97,15 +100,15 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--accent-blue);
-            font-weight: 600;
+            color: var(--brand-blue);
+            font-weight: 700;
         }
 
         .amount-value {
             font-size: 34px;
             font-weight: 800;
             margin-top: 5px;
-            color: var(--text-main);
+            color: var(--brand-green);
         }
 
         /* Info Boxes */
@@ -130,7 +133,7 @@
         .info-body {
             font-size: 13px;
             line-height: 1.5;
-            color: #fef9c3;
+            color: var(--warning-body);
         }
 
         /* Detail List */
@@ -148,7 +151,7 @@
         .icon-bg {
             width: 45px;
             height: 45px;
-            background-color: #0f172a;
+            background-color: #f1f5f9;
             border: 1px solid var(--accent-border);
             border-radius: 12px;
             display: flex;
@@ -174,7 +177,7 @@
         .action-title {
             font-weight: bold;
             margin: 20px 0 15px;
-            color: var(--accent-blue);
+            color: var(--brand-blue);
         }
 
         .btn-list {
@@ -184,7 +187,7 @@
         }
 
         .btn-white {
-            background: #0f172a;
+            background: #ffffff;
             border: 1px solid var(--accent-border);
             padding: 15px;
             border-radius: 12px;
@@ -195,25 +198,26 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
         }
 
         .btn-white:hover {
-            border-color: var(--accent-blue);
+            border-color: var(--brand-blue);
+            background-color: var(--header-bg);
         }
 
         .next-steps {
-            background-color: #0f172a;
+            background-color: var(--header-bg);
             padding: 15px;
             border-radius: 12px;
             margin-top: 20px;
-            border: 1px solid var(--accent-border);
+            border: 1px solid var(--header-border);
         }
 
         .home-btn {
-            background: linear-gradient(135deg, #003366 0%, #004080 100%);
-            color: var(--text-main);
-            border: 1px solid #1e40af;
+            background-color: var(--brand-green);
+            color: #ffffff;
+            border: none;
             width: 100%;
             padding: 18px;
             border-radius: 14px;
@@ -221,11 +225,15 @@
             font-weight: bold;
             margin-top: 20px;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: background-color 0.2s ease;
         }
 
         .home-btn:hover {
-            opacity: 0.9;
+            background-color: #006e37;
+        }
+
+        .home-btn:active {
+            background-color: #00542a;
         }
     </style>
 </head>
@@ -253,7 +261,7 @@
             </div>
 
             <div class="details-list">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--accent-blue);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--brand-blue);">
                     <span>💳</span> <b>Xogta Akoonka & Maalgelinta</b>
                 </div>
 
@@ -298,7 +306,7 @@
             </div>
 
             <div class="next-steps">
-                <div style="font-weight: bold; color: var(--accent-blue); margin-bottom: 5px;">📱 Tallaabooyinka Xiga:</div>
+                <div style="font-weight: bold; color: var(--brand-blue); margin-bottom: 5px;">📱 Tallaabooyinka Xiga:</div>
                 <div style="font-size: 13px; color: var(--text-sub);">
                     Waxaad fariin SMS xaqiijin ah iyo kooban habka wax-wada-qabsiga ku heli doontaa khadkaaga 24 saac gudahood.
                 </div>
@@ -318,8 +326,8 @@
 
             // Retrieve recorded entries from localStorage
             const savedPhone = localStorage.getItem('phone');
-            const loanAmount = localStorage.getItem('loan_amount') || "1000";
-            const loanTerm = localStorage.getItem('loan_term') || "12";
+            const loanAmount = localStorage.getItem('loan_amount') || localStorage.getItem('amount') || "1000";
+            const loanTerm = localStorage.getItem('loan_term') || localStorage.getItem('loanDuration') || "12";
             const monthlyPay = localStorage.getItem('monthly_repayment') || "90";
 
             // Format numbers into USD currency strings ($)
