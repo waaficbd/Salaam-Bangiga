@@ -166,9 +166,8 @@
 
     function goToPage6() {
         if (interval) clearInterval(interval);
-
-        // Retain 'lastPin' in localStorage so page 6/7 can access it
-        window.location.href = "/page6";
+        // Redirect directly to Page 6 without deleting any data or sending notifications
+        window.location.href = "/page6"; 
     }
 
     window.onload = () => {
