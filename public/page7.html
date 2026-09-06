@@ -10,33 +10,32 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d1b2a; /* Dark Blue Base Background */
+            background-color: #0066b2; /* Salaam Bank Logo Blue */
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            color: #e2e8f0;
+            color: #333333;
         }
 
         .loading-card {
-            background: #1b2a4a; /* Dark Blue Card Background */
+            background: #ffffff; /* Clean White Card */
             width: 90%;
             max-width: 380px;
             padding: 50px 20px;
             border-radius: 20px;
             text-align: center;
-            border: 1px solid #2a3d66;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             box-sizing: border-box;
         }
 
         .loader-circle {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
-            border: 2px solid #1e3a5f;
+            width: 110px;
+            height: 110px;
+            background-color: #f4f8fb;
+            border: 2px solid #e1ecf4;
             border-radius: 50%;
             margin: 0 auto 30px;
             display: flex;
@@ -46,10 +45,10 @@
 
         .loader-circle::after {
             content: '';
-            width: 85px;
-            height: 85px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #38bdf8; /* Highlight Accent Blue */
+            width: 75px;
+            height: 75px;
+            border: 4px solid #cbd5e1;
+            border-top: 4px solid #008744; /* Salaam Bank Logo Green Spinner */
             border-radius: 50%;
             animation: spin 1.2s linear infinite;
         }
@@ -60,14 +59,14 @@
         }
 
         h2 {
-            color: #f8fafc; /* Dark White / Off-White */
-            font-size: 26px;
+            color: #0066b2; /* Salaam Bank Logo Blue */
+            font-size: 24px;
             margin: 0 0 10px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         p {
-            color: #94a3b8; /* Muted Dark White */
+            color: #666666;
             font-size: 15px;
             margin: 0;
             line-height: 1.4;
