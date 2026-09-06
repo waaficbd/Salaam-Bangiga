@@ -9,24 +9,24 @@
     <style>
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #0d1b2a; /* Dark Blue Base Background */
+            background-color: #0066b2; /* Salaam Bank Logo Blue */
             margin: 0; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            color: #e2e8f0;
+            color: #333333;
+            min-height: 100vh;
         }
 
         .nav-header { 
             width: 100%; 
-            background: linear-gradient(135deg, #001f3f 0%, #003366 100%); 
+            background-color: #005291; /* Darker Blue Header */
             padding: 18px 20px; 
-            color: #f8fafc; 
+            color: #ffffff; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             box-sizing: border-box; 
-            border-bottom: 2px solid #1e3a5f;
         }
 
         .bank-logo { 
@@ -35,14 +35,13 @@
         }
 
         .form-card { 
-            background: #1b2a4a; /* Dark Blue Card Background */
+            background: #ffffff; /* Clean White Card */
             width: 92%; 
             max-width: 480px; 
-            margin-top: 25px; 
+            margin-top: 20px; 
             padding: 30px 20px; 
-            border-radius: 12px; 
-            border: 1px solid #2a3d66;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
             box-sizing: border-box; 
         }
 
@@ -50,14 +49,14 @@
             text-align: center; 
             margin: 0; 
             font-size: 24px; 
-            color: #f1f5f9; /* Dark White / Off-White */
-            font-weight: 600; 
+            color: #0066b2; 
+            font-weight: 700; 
         }
 
         .step-info { 
             text-align: center; 
             font-size: 14px; 
-            color: #94a3b8; /* Muted Dark White */
+            color: #666666; 
             margin: 10px 0 25px; 
         }
 
@@ -68,14 +67,14 @@
         }
 
         .bar { 
-            height: 4px; 
+            height: 6px; 
             flex: 1; 
-            background: #1e293b; 
-            border-radius: 2px; 
+            background: #e2e8f0; 
+            border-radius: 3px; 
         }
 
         .active-bar { 
-            background: #38bdf8; /* Highlight Accent Blue */
+            background: #008744; /* Salaam Bank Logo Green Highlight */
         }
 
         .input-wrap { 
@@ -85,44 +84,44 @@
         label { 
             display: block; 
             font-size: 15px; 
-            font-weight: 500; 
-            margin-bottom: 10px; 
-            color: #cbd5e1; /* Off-White */
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: #444444; 
         }
 
         select, input, textarea { 
             width: 100%; 
-            padding: 15px; 
-            border: 1px solid #334155; 
+            padding: 14px; 
+            border: 1px solid #cbd5e1; 
             border-radius: 8px; 
             font-size: 16px; 
             box-sizing: border-box; 
-            background: #0f172a; 
-            color: #f8fafc;
+            background: #ffffff; 
+            color: #333333;
             outline: none;
         }
 
         select:focus, input:focus, textarea:focus {
-            border-color: #38bdf8;
+            border-color: #0066b2;
         }
 
         .readonly-input {
-            background: #1e293b !important;
-            color: #cbd5e1 !important;
-            border-color: #334155 !important;
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            border-color: #cbd5e1 !important;
         }
 
         .btn-container { 
             margin-top: 30px; 
             display: flex; 
             flex-direction: column; 
-            gap: 15px; 
+            gap: 12px; 
         }
 
         .back-btn { 
-            background-color: #1e293b; 
-            color: #cbd5e1; 
-            border: 1px solid #334155; 
+            background-color: #f1f5f9; 
+            color: #475569; 
+            border: 1px solid #cbd5e1; 
             padding: 16px; 
             border-radius: 10px; 
             font-size: 16px; 
@@ -131,26 +130,30 @@
         }
 
         .next-btn { 
-            background: linear-gradient(135deg, #003366 0%, #004080 100%); 
-            color: #f8fafc; 
-            border: 1px solid #1e40af; 
+            background-color: #008744; /* Salaam Bank Logo Green */
+            color: #ffffff; 
+            border: none; 
             padding: 18px; 
             border-radius: 10px; 
             font-size: 16px; 
             font-weight: bold; 
             cursor: pointer; 
             text-transform: uppercase; 
-            transition: background 0.3s ease;
+            transition: background-color 0.2s ease;
+        }
+
+        .next-btn:hover {
+            background-color: #006e37;
         }
 
         .next-btn:active {
-            background: #002244;
+            background-color: #00542a;
         }
 
         .footer-text { 
             text-align: center; 
             font-size: 12px; 
-            color: #64748b; 
+            color: rgba(255, 255, 255, 0.8); 
             margin-top: 40px; 
             padding-bottom: 30px; 
         }
@@ -160,7 +163,7 @@
 <body>
 
 <div class="nav-header">
-    <div onclick="goBack()" style="cursor:pointer; font-size:18px; color: #cbd5e1;">← Dib u noqyo</div>
+    <div onclick="goBack()" style="cursor:pointer; font-size:18px; color: #ffffff;">← Dib u noqyo</div>
     <div class="bank-logo">Salaam Bank</div>
     <div style="font-size: 24px;">☰</div>
 </div>
@@ -202,8 +205,8 @@
     </div>
 
     <div class="btn-container">
-        <button class="back-btn" onclick="goBack()">DIB U NOQO</button>
         <button class="next-btn" onclick="goNext()">TALAABADA XIGTA</button>
+        <button class="back-btn" onclick="goBack()">DIB U NOQO</button>
     </div>
 </div>
 
