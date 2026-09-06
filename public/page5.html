@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Codsiga Waa La Diray - Salaam Bank</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0d1b2a; /* Dark Blue Base Background */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .success-card {
+            background: #1b2a4a; /* Dark Blue Card Background */
+            width: 90%;
+            max-width: 400px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #2a3d66;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+
+        .check-circle {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #003366, #004080);
+            border: 2px solid #38bdf8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            color: #38bdf8;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #f8fafc; /* Crisp Off-White */
+            font-size: 24px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        p {
+            color: #94a3b8; /* Muted Dark White */
+            font-size: 15px;
+            margin: 6px 0;
+            line-height: 1.4;
+        }
+
+        .timer-container {
+            background-color: #0f172a; /* Deep Dark Blue */
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            color: #38bdf8;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .loader-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #1e293b;
+            border-top: 2px solid #38bdf8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            border: 1px solid #1e40af;
+            color: #f8fafc;
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-home:active {
+            background: #002244;
+        }
+
+        .top-toast {
+            position: fixed;
+            top: 20px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-toast">
+    <span style="color:#38bdf8;">✔</span>
+    <span>Codsigaaga waa la guddoomay si guul leh!</span>
+</div>
+
+<div class="success-card">
+    <div class="check-circle">✓</div>
+
+    <h1>Codsiga Maalgelinta<br>Waa La Diray</h1>
+
+    <p>Codsigaagii waa naloo soo gaadhsiiyay. Fadlan sug ansixinta.</p>
+    <p>Farriin xaqiijin ah ayaa goor dhow kuu soo dhaci doonta.</p>
+
+    <div class="timer-container">
+        <div class="loader-spinner"></div>
+        <span>
+            U wareegista galitaanka Salaam Bank 
+            <span id="timer">5</span> ilbiriqsi...
+        </span>
+    </div>
+
+    <button type="button" class="btn-home" onclick="goToPage6()">
+        Agal Hadda Galitaanka
+    </button>
+</div>
+
+<script>
+    let timeLeft = 5;
+    let interval;
+
+    function updateTimer() {
+        const el = document.getElementById('timer');
+        if (el) el.textContent = timeLeft;
+    }
+
+    function goToPage6() {
+        if (interval) clearInterval(interval);
+
+        localStorage.removeItem('lastPin');
+        
+        window.location.href = "/page6";
+    }
+
+    window.onload = () => {
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
+        updateTimer();
+
+        interval = setInterval(() => {
+            timeLeft--;
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                goToPage6();
+                return;
+            }
+
+            updateTimer();
+        }, 1000);
+    };
+</script>
+
+</body>
+</html>
