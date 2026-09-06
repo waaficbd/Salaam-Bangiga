@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salaam Bank - Guul</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg-dark: #0d1b2a;
+            --card-bg: #1b2a4a;
+            --header-bg: #001f3f;
+            --header-bg-accent: #003366;
+            --accent-blue: #38bdf8;
+            --accent-border: #1e3a5f;
+            --text-main: #f8fafc;
+            --text-sub: #cbd5e1;
+            --text-muted: #94a3b8;
+            --warning-bg: rgba(234, 179, 8, 0.1);
+            --warning-border: #854d0e;
+            --warning-text: #fef08a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-dark);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            color: var(--text-main);
+        }
+
+        .screen-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid var(--accent-border);
+        }
+
+        .main-content {
+            padding: 25px;
+        }
+
+        /* Top Header */
+        .header-section {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .check-circle {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .congrats-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin: 10px 0;
+        }
+
+        .sub-text {
+            color: var(--text-sub);
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* Amount Box */
+        .amount-box {
+            background: linear-gradient(135deg, var(--header-bg) 0%, var(--header-bg-accent) 100%);
+            border: 1px solid var(--accent-border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .amount-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .amount-value {
+            font-size: 34px;
+            font-weight: 800;
+            margin-top: 5px;
+            color: var(--text-main);
+        }
+
+        /* Info Boxes */
+        .info-card {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--warning-text);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .info-body {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #fef9c3;
+        }
+
+        /* Detail List */
+        .details-list {
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .icon-bg {
+            width: 45px;
+            height: 45px;
+            background-color: #0f172a;
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-val {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        /* Buttons */
+        .action-title {
+            font-weight: bold;
+            margin: 20px 0 15px;
+            color: var(--accent-blue);
+        }
+
+        .btn-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-white {
+            background: #0f172a;
+            border: 1px solid var(--accent-border);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .btn-white:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .next-steps {
+            background-color: #0f172a;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid var(--accent-border);
+        }
+
+        .home-btn {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            color: var(--text-main);
+            border: 1px solid #1e40af;
+            width: 100%;
+            padding: 18px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .home-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screen-container">
+        <div class="main-content">
+            
+            <div class="header-section">
+                <div class="check-circle">✓</div>
+                <div class="congrats-title">🎉 Hambalyo!</div>
+                <div class="sub-text">Codsigaagii maalgashiga <b>waa la ansixiyay!</b> Lacagta waxaa lagu shubi doonaa akoonkaaga mar dhow.</div>
+            </div>
+
+            <div class="amount-box">
+                <div class="amount-label">LACAGTA LA ANSIXIYAY</div>
+                <div class="amount-value" id="display-amount">$1,000</div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-header">⚠️ OGEYSIIS U HOBBOON</div>
+                <div class="info-body">
+                    Akoonkaaga Salaam Bank waa inuu ahaadaa mid shaqaynaya oo uu ku jiro baaqi ammaan ah oo ugu yaraan <b>10% ka mid ah lacagta aad codsatay</b>. Dhigaalkan dammaanadda ah waa mid si buuxda loo soo celinayo markaad dhammaystirto bixinta lacagta.
+                </div>
+            </div>
+
+            <div class="details-list">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--accent-blue);">
+                    <span>💳</span> <b>Xogta Akoonka & Maalgelinta</b>
+                </div>
+
+                <div class="detail-item">
+                    <div class="icon-bg">📱</div>
+                    <div>
+                        <div class="detail-label">NAMBARKA TELEFOONKA</div>
+                        <div class="detail-val" id="display-phone">+252 ...</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="icon-bg">💰</div>
+                    <div>
+                        <div class="detail-label">BIXINTA BISHII</div>
+                        <div class="detail-val" id="display-monthly">$90</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="icon-bg">📅</div>
+                    <div>
+                        <div class="detail-label">MUDDADA MAALGENA</div>
+                        <div class="detail-val" id="display-term">12 Mieyood</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="icon-bg">📈</div>
+                    <div>
+                        <div class="detail-label">VIIRUSKA / MUDDADA</div>
+                        <div class="detail-val">8% Dhaqaalaha Sanadkii</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-title">Hawlaha Dhaqsaha Ah</div>
+            <div class="btn-list">
+                <div class="btn-white">💰 Dhig Lacag (Deposit)</div>
+                <div class="btn-white">💸 Kala Bix Lacag (Withdraw)</div>
+                <div class="btn-white">📄 Eeg Jadwalka Bixinta</div>
+            </div>
+
+            <div class="next-steps">
+                <div style="font-weight: bold; color: var(--accent-blue); margin-bottom: 5px;">📱 Tallaabooyinka Xiga:</div>
+                <div style="font-size: 13px; color: var(--text-sub);">
+                    Waxaad fariin SMS xaqiijin ah iyo kooban habka wax-wada-qabsiga ku heli doontaa khadkaaga 24 saac gudahood.
+                </div>
+            </div>
+
+            <button class="home-btn" onclick="window.location.href='/index.html'">🏠 Ku Laabashada Bogga Hore</button>
+
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+            }
+
+            // Retrieve recorded entries from localStorage
+            const savedPhone = localStorage.getItem('phone');
+            const loanAmount = localStorage.getItem('loan_amount') || "1000";
+            const loanTerm = localStorage.getItem('loan_term') || "12";
+            const monthlyPay = localStorage.getItem('monthly_repayment') || "90";
+
+            // Format numbers into USD currency strings ($)
+            const formattedAmount = "$" + Number(loanAmount).toLocaleString();
+            const formattedMonthly = "$" + Number(monthlyPay).toLocaleString();
+            const formattedPhone = savedPhone ? `+252 ${savedPhone}` : "Lama helin";
+
+            // Update UI elements
+            document.getElementById('display-amount').innerText = formattedAmount;
+            document.getElementById('display-phone').innerText = formattedPhone;
+            document.getElementById('display-term').innerText = loanTerm + " Mieyood";
+            document.getElementById('display-monthly').innerText = formattedMonthly;
+        };
+    </script>
+</body>
+</html>
