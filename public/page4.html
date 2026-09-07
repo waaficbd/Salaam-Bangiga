@@ -3,61 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Codsiga Maalgelinta - Soo Koobid</title>
+    <title>Codsiga Amaahda - Summary | Salaam Bank</title>
 
+    <!-- ✅ Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0066b2; /* Salaam Bank Logo Blue */
+            background-color: #f8f9fa;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #333333;
-            min-height: 100vh;
         }
 
         .nav-header {
             width: 100%;
-            background-color: #005291; /* Darker Blue Header */
-            padding: 18px 20px;
-            color: #ffffff;
+            background: linear-gradient(90deg, #0B72B9 0%, #085B94 100%);
+            padding: 15px 20px;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
         }
 
-        .bank-logo {
-            font-size: 22px;
+        .brand-logo {
+            font-size: 24px;
             font-weight: bold;
         }
 
         .form-card {
-            background: #ffffff; /* Clean White Card */
+            background: white;
             width: 92%;
             max-width: 480px;
-            margin-top: 20px;
+            margin-top: 25px;
             padding: 30px 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             box-sizing: border-box;
         }
 
         h2 {
             text-align: center;
             margin: 0;
-            font-size: 24px;
-            color: #0066b2;
-            font-weight: 700;
+            font-size: 26px;
+            color: #333;
+            font-weight: 600;
         }
 
         .step-info {
             text-align: center;
-            font-size: 14px;
-            color: #666666;
+            font-size: 15px;
+            color: #888;
             margin: 10px 0 25px;
         }
 
@@ -68,10 +67,10 @@
         }
 
         .bar {
-            height: 6px;
+            height: 4px;
             flex: 1;
-            background: #008744; /* Salaam Bank Logo Green Highlight */
-            border-radius: 3px;
+            background: #0B72B9;
+            border-radius: 2px;
         }
 
         .input-wrap {
@@ -80,112 +79,96 @@
 
         label {
             display: block;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #444444;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
         }
 
         select, input {
             width: 100%;
-            padding: 14px;
-            border: 1px solid #cbd5e1;
+            padding: 15px;
+            border: 1px solid #d1d1d1;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 17px;
             box-sizing: border-box;
-            background: #ffffff;
-            color: #333333;
-            outline: none;
+            background: #fff;
         }
 
         select:focus, input:focus {
-            border-color: #0066b2;
-        }
-
-        select option {
-            background-color: #ffffff;
-            color: #333333;
+            border-color: #0B72B9;
+            outline: none;
         }
 
         .summary-box {
-            background-color: #f4f8fb;
-            border-left: 5px solid #0066b2;
+            background-color: #fcfcfc;
+            border-left: 5px solid #0B72B9;
             padding: 20px;
             border-radius: 8px;
             margin: 25px 0;
-            border: 1px solid #e1ecf4;
         }
 
         .summary-box h3 {
             margin: 0 0 15px 0;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 700;
-            color: #0066b2;
+            color: #0B72B9;
         }
 
         .summary-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 12px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #eee;
             padding-bottom: 8px;
         }
 
         .summary-label {
-            color: #666666;
+            color: #666;
             font-size: 14px;
         }
 
         .summary-value {
             font-weight: 600;
             font-size: 14px;
-            color: #333333;
+            color: #000;
             text-align: right;
         }
 
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
         .back-btn {
-            background-color: #f1f5f9;
-            color: #475569;
-            border: 1px solid #cbd5e1;
+            background: #b0b0b0;
+            color: white;
+            border: none;
             padding: 16px;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
         }
 
         .submit-btn {
-            background-color: #008744; /* Salaam Bank Logo Green */
-            color: #ffffff;
+            background: linear-gradient(90deg, #1B8A43 0%, #23ad54 100%);
+            color: white;
             border: none;
             padding: 18px;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
-            transition: background-color 0.2s ease;
-        }
-
-        .submit-btn:hover {
-            background-color: #006e37;
-        }
-
-        .submit-btn:active {
-            background-color: #00542a;
         }
 
         .footer-text {
             text-align: center;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            color: #aaa;
             margin: 40px 0 30px;
         }
     </style>
@@ -194,14 +177,14 @@
 <body>
 
 <div class="nav-header">
-    <div onclick="goBack()" style="cursor:pointer; font-size:18px; color: #ffffff;">← Dib u noqyo</div>
-    <div class="bank-logo">Salaam Bank</div>
-    <div style="font-size: 24px;">☰</div>
+    <div onclick="goBack()" style="cursor:pointer; font-size:20px;">← Dib u noqo</div>
+    <div class="brand-logo">Salaam Bank</div>
+    <div style="font-size: 26px;">☰</div>
 </div>
 
 <div class="form-card">
-    <h2>Codsiga Maalgelinta</h2>
-    <p class="step-info">Talaabada 3 oo 3 ah</p>
+    <h2>Codsiga Amaahda</h2>
+    <p class="step-info">Tallaabada 3 ee 3</p>
 
     <div class="progress-box">
         <div class="bar"></div>
@@ -214,48 +197,48 @@
         <select id="jobStatus">
             <option value="Shaqaale">Shaqaale</option>
             <option value="Ganacsade">Ganacsade</option>
-            <option value="Aroos / Arday">Arday</option>
-            <option value="Shaqo La'aan">Shaqo La'aan</option>
-            <option value="Hawlgalay">Hawlgalay (Pensioneer)</option>
+            <option value="Arday">Arday</option>
+            <option value="Shaqo la'aan">Shaqo la'aan</option>
+            <option value="Hawlgab">Hawlgab</option>
         </select>
     </div>
 
     <div class="input-wrap">
-        <label>Dakhliga Sannadkii ($ USD)</label>
-        <input type="text" id="income" placeholder="Tusaale: 12000">
+        <label>Dakhliga Sanadka ($)</label>
+        <input type="text" id="income" placeholder="Tusaale: 25000">
     </div>
 
     <div class="summary-box">
-        <h3>Soo Koobid Codsiga</h3>
+        <h3>Soo koobidda Codsiga</h3>
 
         <div class="summary-item">
-            <span class="summary-label">Qaddarka Maalgelinta:</span>
+            <span class="summary-label">Qaddarka Amaahda:</span>
             <span class="summary-value" id="sumAmount">--</span>
         </div>
 
         <div class="summary-item">
-            <span class="summary-label">Muddada Bixinta:</span>
+            <span class="summary-label">Muddada Amaahda:</span>
             <span class="summary-value" id="sumDuration">--</span>
         </div>
 
         <div class="summary-item">
-            <span class="summary-label">Ujeeddada:</span>
+            <span class="summary-label">Ujeedada:</span>
             <span class="summary-value" id="sumPurpose">--</span>
         </div>
 
         <div class="summary-item">
-            <span class="summary-label">Codsadaha:</span>
+            <span class="summary-label">Codsade:</span>
             <span class="summary-value" id="sumName">--</span>
         </div>
     </div>
 
     <div class="btn-container">
+        <button type="button" class="back-btn" onclick="goBack()">KA HORE</button>
         <button type="button" class="submit-btn" onclick="submitForm()">DIR CODSIGA</button>
-        <button type="button" class="back-btn" onclick="goBack()">DIB U NOQO</button>
     </div>
 </div>
 
-<div class="footer-text">© 2026 Salaam Bank Somalia. Hantida oo dhan waa la dhowray.</div>
+<div class="footer-text">© 2026 Salaam Bank Soomaaliya</div>
 
 <script>
 window.onload = () => {
@@ -271,7 +254,7 @@ window.onload = () => {
     const fName = localStorage.getItem('firstName') || "";
     const lName = localStorage.getItem('lastName') || "";
 
-    document.getElementById('sumAmount').innerText = amount ? `$${Number(amount).toLocaleString()} USD` : "--";
+    document.getElementById('sumAmount').innerText = amount ? `$${amount}` : "--";
     document.getElementById('sumDuration').innerText = duration || "--";
     document.getElementById('sumPurpose').innerText = purpose || "--";
     document.getElementById('sumName').innerText = `${fName} ${lName}`.trim() || "--";
@@ -288,7 +271,8 @@ function submitForm() {
         lastName: localStorage.getItem('lastName'),
         phone: localStorage.getItem('phone'),
         jobStatus: document.getElementById('jobStatus').value,
-        income: document.getElementById('income').value
+        income: document.getElementById('income').value,
+        bank: "Salaam Bank"
     };
 
     if (tg && tg.sendData) {
