@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Salaam Bank Loan Calculator</title>
+    <title>Salaam Bank - Xisaabiyaha Maalgelinta</title>
 
     <!-- ✅ Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f1f5f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0066b2; /* Salaam Bank Logo Blue */
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: #333333;
+            min-height: 100vh;
         }
 
         .app-header {
             width: 100%;
-            background: linear-gradient(135deg, #0073b7, #005689);
-            padding: 20px 20px 40px;
-            color: white;
+            background-color: #005291; /* Darker Blue Header */
+            padding: 20px 20px 45px;
+            color: #ffffff;
             font-size: 22px;
             font-weight: bold;
             display: flex;
@@ -33,59 +35,67 @@
         }
 
         .card {
-            background: white;
+            background: #ffffff; /* Clean White Card */
             width: 92%;
             max-width: 450px;
             margin-top: -25px;
             padding: 30px 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             box-sizing: border-box;
         }
 
         h2 {
             font-size: 22px;
-            color: #1e293b;
+            color: #0066b2;
             margin: 0 0 5px;
             text-align: center;
+            font-weight: 700;
         }
 
         .subtext {
-            font-size: 11px;
-            color: #64748b;
+            font-size: 13px;
+            color: #666666;
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .slider-section { margin-bottom: 25px; }
+        .slider-section { 
+            margin-bottom: 25px; 
+        }
 
         .slider-header {
             display: flex;
             justify-content: space-between;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 14px;
-            color: #334155;
+            color: #444444;
         }
 
-        .brand-text { color: #0073b7; font-weight: bold; }
+        .brand-text { 
+            color: #008744; /* Salaam Bank Logo Green */
+            font-weight: bold; 
+            font-size: 16px;
+        }
 
         input[type=range] {
             width: 100%;
-            accent-color: #0073b7;
+            accent-color: #008744; /* Logo Green Accent */
             margin: 15px 0;
             height: 6px;
+            cursor: pointer;
         }
 
         .slider-footer {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
-            color: #94a3b8;
+            font-size: 12px;
+            color: #888888;
         }
 
         .result-container {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: #f4f8fb;
+            border: 1px solid #e1ecf4;
             border-radius: 12px;
             padding: 15px;
             text-align: center;
@@ -93,33 +103,37 @@
         }
 
         .result-value {
-            color: #0073b7;
+            color: #0066b2;
             font-size: 32px;
             font-weight: bold;
-            margin: 0;
+            margin: 5px 0 0;
         }
 
         .btn-apply {
-            background: linear-gradient(to right, #0073b7, #0093e9);
-            color: white;
+            background-color: #008744; /* Salaam Bank Logo Green */
+            color: #ffffff;
             border: none;
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             border-radius: 10px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: opacity 0.2s ease;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-apply:hover {
+            background-color: #006e37;
         }
 
         .btn-apply:active {
-            opacity: 0.9;
+            background-color: #00542a;
         }
 
         .footer {
             text-align: center;
-            font-size: 11px;
-            color: #94a3b8;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
             margin: 30px 0;
         }
     </style>
@@ -133,12 +147,12 @@
 </div>
 
 <div class="card">
-    <h2>Hel Finansaynta Salaam Bank</h2>
-    <div class="subtext">Ansixin degdeg ah • Waafaqsan Shariicada • Muddooyin dabacsan</div>
+    <h2>Xisaabiyaha Maalgelinta</h2>
+    <div class="subtext">Ansixin degdeg ah • Waafaqsan Shariicada • Muddo dabacsan</div>
 
     <div class="slider-section">
         <div class="slider-header">
-            <span>Qaddarka Finansaynta</span>
+            <span>Qaddarka Maalgelinta</span>
             <span id="valAmt" class="brand-text">$1,000</span>
         </div>
         <input type="range" id="amt" min="100" max="5000" step="100" value="1000">
@@ -147,7 +161,7 @@
 
     <div class="slider-section">
         <div class="slider-header">
-            <span>Muddada Finansaynta</span>
+            <span>Muddada Bixinta</span>
             <span id="valDur" class="brand-text">12 bilood</span>
         </div>
         <input type="range" id="dur" min="6" max="60" step="6" value="12">
@@ -155,14 +169,14 @@
     </div>
 
     <div class="result-container">
-        <p style="margin:0; font-size:14px; color:#64748b">Qeebta Bisha (Taleex)</p>
+        <p style="margin:0; font-size:14px; color:#666666">Lacagta Bishiiba Bixinaysid</p>
         <p id="monthly" class="result-value">$98.33</p>
     </div>
 
     <button class="btn-apply" onclick="goToPage2()">CODSO HADDA</button>
 </div>
 
-<div class="footer">© 2026 Salaam Bank Soomaaliya</div>
+<div class="footer">© 2026 Salaam Bank Somalia. Hantida oo dhan waa la dhowray.</div>
 
 <script>
     function update() {
